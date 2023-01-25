@@ -9,9 +9,12 @@ set -o nounset
 #####################################################################
 ## Beginning of the configurations ##################################
 
+ACCOUNT_ID="{{ cookiecutter.internal_base_account_id }}"
+AWS_REGION="{{ cookiecutter.aws_region }}"
 BASE_LOCATION="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PATH_BUILD="${BASE_LOCATION}/build"
 PROJECT_FULL_NAME="{{ cookiecutter.docker_name_formatted }}"
+REPO_NAME="{{ cookiecutter.docker_name_formatted }}"
 
 ## End of the configurations ########################################
 #####################################################################
@@ -46,6 +49,28 @@ cut_release() {
   print_completed
 }
 
+# Build the Docker image
+package() {
+  print_begins
+
+  echo Authenticating with ECR
+  aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+  echo Building the images
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" .
+# TODO: TEL-1866 custom commands for elastic-loadtest only, need to figure out how to cruft these?
+#  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-heartbeat" --build-arg MODE_HEARTBEAT=1 .
+#  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+  echo Images built
+  echo Pushing the images
+  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
+# TODO: TEL-1866 custom commands for elastic-loadtest only, need to figure out how to cruft these?
+#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-heartbeat"
+#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-webops-heartbeat"
+  echo Build and push completed
+
+  print_completed
+}
+
 # Bump the function's version when appropriate
 prepare_release() {
   print_begins
@@ -76,6 +101,8 @@ help() {
   echo "Available commands:"
   echo -e " - prepare_release\t\t Bump the function's version when appropriate"
   echo -e " - cut_release\t\t Creates a release tag in the repository"
+  echo -e " - package\t\t\t Build the Docker image"
+  echo -e " - publish_to_ecr\t Upload Docker image to internal-base ECR"
   echo
 }
 
@@ -104,7 +131,7 @@ main() {
   # Validate command arguments
   [ "$#" -ne 1 ] && help && exit 1
   function="$1"
-  functions="help debug_env open_shell prepare_release print_configs cut_release"
+  functions="help cut_release debug_env open_shell package prepare_release print_configs publish_to_ecr"
   [[ $functions =~ (^|[[:space:]])"$function"($|[[:space:]]) ]] || (echo -e "\n\"$function\" is not a valid command. Try \"$0 help\" for more details" && exit 2)
 
   # Ensure build folder is available
