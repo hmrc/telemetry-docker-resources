@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# A helper tool to assist us maintaining lambda functions
+# A helper tool to assist us maintaining docker functions
 # Intention here is to keep this files and all its functions reusable for all Telemetry repositories
 
 set -o errexit
@@ -20,8 +20,6 @@ debug_env(){
   echo BASE_LOCATION="${BASE_LOCATION}"
   echo PROJECT_FULL_NAME="${PROJECT_FULL_NAME}"
   echo PATH_BUILD="${PATH_BUILD}"
-  echo S3_TELEMETRY_LAMBDA_ROOT="${S3_TELEMETRY_LAMBDA_ROOT}"
-  echo S3_ADDRESS="${S3_ADDRESS}"
 }
 
 open_shell() {
