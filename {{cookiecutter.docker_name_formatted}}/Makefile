@@ -56,35 +56,16 @@ clean: ## Teardown build artefacts
 .PHONY: clean
 
 cut_release: ## Cut release
-	@./bin/lambda-tools.sh cut_release
+	@./bin/docker-tools.sh cut_release
 .PHONY: cut_release
 
-debug_env: ## Print out variables used by lambda-tools.sh
-	@./bin/lambda-tools.sh debug_env
+debug_env: ## Print out variables used by docker-tools.sh
+	@./bin/docker-tools.sh debug_env
 .PHONY: debug_env
 
-package: setup ## Run a Docker build to package the lambda zip file
-	@./bin/lambda-tools.sh package
-.PHONY: package
-
 prepare_release: ## Runs prepare release
-	@./bin/lambda-tools.sh prepare_release
+	@./bin/docker-tools.sh prepare_release
 .PHONY: prepare_release
-
-publish: publish_to_s3
-.PHONY: publish
-
-publish_to_s3: ## Build and push lambda zip to S3 (requires MDTP_ENVIRONMENT to be set to an environment)
-	@./bin/lambda-tools.sh publish_to_s3
-.PHONY: publish_to_s3
-
-publish_to_cip_s3: ## Build and push lambda zip to CIP S3
-	@./bin/lambda-tools.sh publish_to_cip_s3
-.PHONY: publish_to_cip_s3
-
-publish_to_artifactory: ## Build and push lambda zip to Artifactory
-	@./bin/lambda-tools.sh publish_to_artifactory
-.PHONY: publish_to_artifactory
 
 setup: check_poetry ## Setup virtualenv & dependencies using poetry and set-up the git hook scripts
 	@export POETRY_VIRTUALENVS_IN_PROJECT=$(POETRY_VIRTUALENVS_IN_PROJECT) && poetry run pip install --upgrade pip
@@ -95,11 +76,11 @@ setup: check_poetry ## Setup virtualenv & dependencies using poetry and set-up t
 .PHONY: setup
 
 test: setup ## Run unit tests
-	@./bin/lambda-tools.sh unittest
+	@./bin/docker-tools.sh unittest
 .PHONY: test
 
 verify: test bandit black ## Run all the checks and tests
 .PHONY: verify
 
-verify_publish_release: verify prepare_release package publish cut_release ## Run all the checks and tests, package, publish and release the lambda
+verify_publish_release: verify prepare_release cut_release ## Run all the checks and tests, package, publish and release the Docker image
 .PHONY: verify_publish_release
