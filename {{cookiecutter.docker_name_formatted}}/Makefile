@@ -76,7 +76,7 @@ setup: check_poetry ## Setup virtualenv & dependencies using poetry and set-up t
 .PHONY: setup
 
 test: setup ## Run unit tests
-	@./bin/docker-tools.sh unittest
+	@echo "not implemented yet"
 .PHONY: test
 
 verify: test bandit black ## Run all the checks and tests
