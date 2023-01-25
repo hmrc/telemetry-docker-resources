@@ -8,7 +8,7 @@ PYTHON_REQUIRED := $(shell cat .python-version)
 PYTHON_VERSION ?= $(shell python -V | cut -d' ' -f2)
 
 DOCKER_NAME := {{ cookiecutter.docker_name_formatted }}
-TELEMETRY_INTERNAL_BASE_ACCOUNT_ID := 634456480543
+TELEMETRY_INTERNAL_BASE_ACCOUNT_ID := {{ cookiecutter.internal_base_account_id }}
 
 help: ## The help text you're reading
 	@grep --no-filename -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -55,9 +55,17 @@ debug_env: ## Print out variables used by docker-tools.sh
 	@./bin/docker-tools.sh debug_env
 .PHONY: debug_env
 
+package: setup ## Build the Docker image
+	@./bin/docker-tools.sh package
+.PHONY: package
+
 prepare_release: ## Runs prepare release
 	@./bin/docker-tools.sh prepare_release
 .PHONY: prepare_release
+
+publish_to_ecr: ## Push the Docker image to the internal-base ECR repo
+	@./bin/docker-tools.sh publish_to_ecr
+.PHONY: publish_to_ecr
 
 setup: check_poetry ## Setup virtualenv & dependencies using poetry and set-up the git hook scripts
 	@export POETRY_VIRTUALENVS_IN_PROJECT=$(POETRY_VIRTUALENVS_IN_PROJECT) && poetry run pip install --upgrade pip
@@ -74,5 +82,5 @@ test: setup ## Run unit tests
 verify: test bandit ## Run all the checks and tests
 .PHONY: verify
 
-verify_publish_release: verify prepare_release cut_release ## Run all the checks and tests, package, publish and release the Docker image
+verify_publish_release: verify prepare_release package publish_to_ecr cut_release ## Run all the checks and tests, package, publish and release the Docker image
 .PHONY: verify_publish_release
