@@ -62,13 +62,6 @@ package() {
 # TODO: TEL-1866 custom commands for elastic-loadtest only, need to figure out how to cruft these?
 #  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-heartbeat" --build-arg MODE_HEARTBEAT=1 .
 #  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
-  echo Images built
-  echo Pushing the images
-  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
-# TODO: TEL-1866 custom commands for elastic-loadtest only, need to figure out how to cruft these?
-#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-heartbeat"
-#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-webops-heartbeat"
-  echo Build and push completed
 
   print_completed
 }
@@ -79,6 +72,22 @@ prepare_release() {
 
   poetry run prepare-release
   export_version
+
+  print_completed
+}
+
+publish_to_ecr() {
+  print_begins
+
+  export_version
+
+  echo Authenticating with ECR
+  aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+  echo Pushing the images
+  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
+# TODO: TEL-1866 custom commands for elastic-loadtest only, need to figure out how to cruft these?
+#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-heartbeat"
+#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-webops-heartbeat"
 
   print_completed
 }
