@@ -3,6 +3,7 @@
 *.tgz
 .idea/
 .pytest_cache/
+.venv/
 .vscode/
 /*.iml
 /*.ipr
@@ -21,11 +22,7 @@ __pycache__
 coverage.xml
 dist
 lib_managed
-log_handler.zip
-log_handler.zip.base64sha256
 logs
-project/project
-project/target
 requirements*.txt
 requirements.txt
 target
