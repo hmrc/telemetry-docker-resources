@@ -22,14 +22,6 @@ bandit: ## Run bandit against python code
 	@poetry run bandit -r ./src -c .bandit
 .PHONY: bandit
 
-black: ## Run black against python code
-	@poetry run black ./src ./tests
-.PHONY: black
-
-black_check: ## Show changes black would make
-	@poetry run black --check --diff ./src ./tests
-.PHONY: black_check
-
 check_poetry: check_python ## Check Poetry installation
     ifeq ('$(POETRY_OK)','')
 	    $(error package 'poetry' not found!)
@@ -79,7 +71,7 @@ test: setup ## Run unit tests
 	@echo "not implemented yet"
 .PHONY: test
 
-verify: test bandit black ## Run all the checks and tests
+verify: test bandit ## Run all the checks and tests
 .PHONY: verify
 
 verify_publish_release: verify prepare_release cut_release ## Run all the checks and tests, package, publish and release the Docker image
