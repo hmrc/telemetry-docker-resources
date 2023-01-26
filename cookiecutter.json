@@ -1,4 +1,5 @@
 {
+  "additional_docker_build_info": [],
   "aws_region": "eu-west-2",
   "bandit_skip_tests": "",
   "custom_makefile_name": "",
