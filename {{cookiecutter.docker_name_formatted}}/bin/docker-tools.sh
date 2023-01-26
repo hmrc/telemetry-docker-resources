@@ -89,8 +89,8 @@ publish_to_ecr() {
   echo Pushing the images
   docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
 {% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
-{%- for tag in cookiecutter.additional_docker_build_info -%}
-  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-{{tag.tags_suffix|safe}}
+{%- for key, value in cookiecutter.additional_docker_build_info|dictsort -%}
+  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-{{key|safe}}
 {% endfor %}
 {% endif %}
 
