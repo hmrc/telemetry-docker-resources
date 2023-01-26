@@ -60,7 +60,7 @@ package() {
   echo Building the images
   docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" .
 {% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
-{%- for key, value in cookiecutter.additional_docker_build_info|dictsort -%}
+{%- for key, value in cookiecutter.additional_docker_build_info|dictsort %}
   docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-{{key|safe}}"
 {%- for build_arg in value.build_args%} --build_arg {{build_arg|safe}} {% endfor %} .
 {% endfor %}
@@ -89,7 +89,7 @@ publish_to_ecr() {
   echo Pushing the images
   docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
 {% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
-{%- for key, value in cookiecutter.additional_docker_build_info|dictsort -%}
+{%- for key, value in cookiecutter.additional_docker_build_info|dictsort %}
   docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-{{key|safe}}"
 {% endfor %}
 {% endif %}
