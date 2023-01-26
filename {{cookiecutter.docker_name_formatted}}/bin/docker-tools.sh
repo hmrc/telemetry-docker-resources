@@ -59,9 +59,12 @@ package() {
   aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
   echo Building the images
   docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" .
-# TODO: TEL-1866 custom commands for elastic-loadtest only, need to figure out how to cruft these?
-#  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-heartbeat" --build-arg MODE_HEARTBEAT=1 .
-#  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+{% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
+{%- for tag in cookiecutter.additional_docker_build_info -%}
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-{{tag.tags_suffix|safe}}
+{%- for build_arg in tag.build_args%} --build_arg {{build_arg|safe}} {% endfor %} .
+{% endfor %}
+{% endif %}
 
   print_completed
 }
@@ -85,9 +88,11 @@ publish_to_ecr() {
   aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
   echo Pushing the images
   docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
-# TODO: TEL-1866 custom commands for elastic-loadtest only, need to figure out how to cruft these?
-#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-heartbeat"
-#  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${TAG_PREFIX}-webops-heartbeat"
+{% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
+{%- for tag in cookiecutter.additional_docker_build_info -%}
+  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-{{tag.tags_suffix|safe}}
+{% endfor %}
+{% endif %}
 
   print_completed
 }
