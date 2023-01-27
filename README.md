@@ -44,6 +44,11 @@ git add .
 git commit -a -m "TEL-1866: add poetry" -m "Co-authored-by: Lee Myring <29373851+thinkstack@users.noreply.github.com>"
 ```
 
+In order to publish new releases using the CI tooling provided by this template you will first need to create an initial tag.
+```shell
+git tag -a release/0.0.0 -m "release/0.0.0" && git push --tags
+```
+
 ## Linking an existing repository
 
 The repository is meant to be used as a cookiecutter source inside any Docker-based repos. To add the templates
