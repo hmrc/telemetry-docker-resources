@@ -56,9 +56,10 @@ package() {
   export_version
 
   echo Building the images
-{% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
-  {%- for key, value in cookiecutter.additional_docker_build_info|dictsort %}
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}{{key|replace('-default','')|safe}}"
+
+{% if cookiecutter.docker_build_info_default is defined and cookiecutter.docker_build_info_default|length %}
+  {%- for key, value in cookiecutter.docker_build_info_default|dictsort %}
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
     {%- if value.build_args is defined and value.build_args|length %}
       {%- for build_arg in value.build_args%} --build-arg {{build_arg|safe}} {%- endfor %}
     {%- endif %}
@@ -68,6 +69,18 @@ package() {
   {%- endfor %}
 {% else %}
   docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" .
+{% endif %}
+
+{% if cookiecutter.docker_build_info_additional is defined and cookiecutter.docker_build_info_additional|length %}
+  {%- for key, value in cookiecutter.docker_build_info_additional|dictsort %}
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}{{key|safe}}"
+    {%- if value.build_args is defined and value.build_args|length %}
+      {%- for build_arg in value.build_args%} --build-arg {{build_arg|safe}} {%- endfor %}
+    {%- endif %}
+    {%- if value.platform is defined and value.platform|length %}
+      {%- for platform in value.platform%} --platform {{platform|safe}} {%- endfor %}
+    {%- endif %} .
+  {%- endfor %}
 {% endif %}
 
   print_completed
@@ -91,12 +104,12 @@ publish_to_ecr() {
   echo Authenticating with ECR
   aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
   echo Pushing the images
-{% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
-  {%- for key, value in cookiecutter.additional_docker_build_info|dictsort %}
-  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}{{key|replace('-default','')|safe}}"
-  {%- endfor %}
-{% else %}
+
   docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
+{% if cookiecutter.docker_build_info_additional is defined and cookiecutter.docker_build_info_additional|length %}
+  {%- for key, value in cookiecutter.docker_build_info_additional|dictsort %}
+  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}{{key|safe}}"
+  {%- endfor %}
 {% endif %}
 
   print_completed
