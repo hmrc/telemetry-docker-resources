@@ -1,7 +1,7 @@
 poetry 1.2.2
 python 3.10.8
 {%- if cookiecutter.additional_tool_versions is defined and cookiecutter.additional_tool_versions|length %}
-{%- for key, value in cookiecutter.additional_tool_versions|dictsort %}
+  {%- for key, value in cookiecutter.additional_tool_versions|dictsort %}
 {{key|safe}} {{value.version|safe}}
-{%- endfor %}
+  {%- endfor %}
 {% endif %}
