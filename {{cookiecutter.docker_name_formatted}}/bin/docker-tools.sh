@@ -55,8 +55,6 @@ package() {
 
   export_version
 
-  echo Authenticating with ECR
-  aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
   echo Building the images
 {% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
   {%- for key, value in cookiecutter.additional_docker_build_info|dictsort %}
@@ -93,11 +91,12 @@ publish_to_ecr() {
   echo Authenticating with ECR
   aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
   echo Pushing the images
-  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
 {% if cookiecutter.additional_docker_build_info is defined and cookiecutter.additional_docker_build_info|length %}
-{%- for key, value in cookiecutter.additional_docker_build_info|dictsort %}
-  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-{{key|safe}}"
-{% endfor %}
+  {%- for key, value in cookiecutter.additional_docker_build_info|dictsort %}
+  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}{{key|replace('-default','')|safe}}"
+  {%- endfor %}
+{% else %}
+  docker push "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}"
 {% endif %}
 
   print_completed
