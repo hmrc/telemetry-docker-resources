@@ -7,6 +7,7 @@
 * [Initialising a repository](#Initialising-a-repository)
 * [Linking an existing repository](#Linking-an-existing-repository)
 * [Updating the repository](#Updating-the-repository)
+* [Setting Docker Build Parameters](#Setting-Docker-Build-Parameters)
 * [References](#References)
 * [License](#License)
 
@@ -99,6 +100,141 @@ cruft update --skip-apply-ask
 # If the update does not work - an update can be forced
 cruft diff | git apply
 ```
+
+## Setting Docker Build Parameters
+You can manage the Docker build commands using two variables `docker_build_info_default` and `docker_build_info_additional`.
+The examples below demonstrate the different outcomes based on the contents of the dictionary values specified.
+
+**Note:** The Json blocks below are only snippets of the full Json required for simplicity
+
+### Default build with no build arguments or tag suffixes
+
+#### Input (.cruft.json)
+```json
+{
+  "template": "https://github.com/hmrc/telemetry-docker-resources",
+  "context": {
+    "cookiecutter": {
+      "docker_build_info_additional": {},
+      "docker_build_info_default": {}
+    }
+  }
+}
+```
+
+#### Output (bin/docker-tools.sh)
+```shell
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" .
+```
+
+### Default build only with build arguments
+
+#### Input (.cruft.json)
+```json
+{
+  "template": "https://github.com/hmrc/telemetry-docker-resources",
+  "context": {
+    "cookiecutter": {
+      "docker_build_info_additional": {},
+      "docker_build_info_default": {
+        "default": {
+          "build_args": [
+            "MODE_HEARTBEAT=1"
+          ],
+          "platform": [
+            "'linux/amd64'"
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+#### Output (bin/docker-tools.sh)
+```shell
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" --build-arg MODE_HEARTBEAT=1 --platform 'linux/amd64' .
+```
+
+### No default build but additional build arguments supplied
+
+**Note:** Even though no default build is supplied, you will always get a vanilla build. This is by design
+
+#### Input (.cruft.json)
+```json
+{
+  "template": "https://github.com/hmrc/telemetry-docker-resources",
+  "context": {
+    "cookiecutter": {
+      "docker_build_info_additional": {
+        "-heartbeat": {
+          "build_args": [
+            "MODE_HEARTBEAT=1"
+          ]
+        },
+        "-webops-heartbeat": {
+          "build_args": [
+            "MODE_HEARTBEAT=1",
+            "IS_WEBOPS_ENV=1"
+          ]
+        }
+      },
+      "docker_build_info_default": {}
+    }
+  }
+}
+```
+
+#### Output (bin/docker-tools.sh)
+```shell
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-" .
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-heartbeat" --build-arg MODE_HEARTBEAT=1 .
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+```
+
+### Both default and additional build arguments supplied
+
+#### Input (.cruft.json)
+```json
+{
+  "template": "https://github.com/hmrc/telemetry-docker-resources",
+  "context": {
+    "cookiecutter": {
+      "docker_build_info_additional": {
+        "-heartbeat": {
+          "build_args": [
+            "MODE_HEARTBEAT=1"
+          ],
+          "platform": [
+            "'linux/amd64'"
+          ]
+        },
+        "-webops-heartbeat": {
+          "build_args": [
+            "MODE_HEARTBEAT=1",
+            "IS_WEBOPS_ENV=1"
+          ]
+        }
+      },
+      "docker_build_info_default": {
+        "default": {
+          "platform": [
+            "'linux/amd64'"
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+#### Output (bin/docker-tools.sh)
+```shell
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" --platform 'linux/amd64' .
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-heartbeat" --build-arg MODE_HEARTBEAT=1 --platform 'linux/amd64' .
+  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+```
+
 
 ## References
 
