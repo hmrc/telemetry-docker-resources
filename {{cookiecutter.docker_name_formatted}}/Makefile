@@ -71,7 +71,7 @@ setup: check_poetry ## Setup virtualenv & dependencies using poetry and set-up t
 	@poetry run pre-commit install
 .PHONY: setup
 
-verify: setup ## Run a build of the Docker image
+verify: setup prepare_release ## Run a build of the Docker image
 	@./bin/docker-tools.sh package
 .PHONY: verify
 
