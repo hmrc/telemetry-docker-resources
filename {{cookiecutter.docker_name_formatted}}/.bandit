@@ -1,1 +1,0 @@
-skips: [{{ cookiecutter.bandit_skip_tests }}]
