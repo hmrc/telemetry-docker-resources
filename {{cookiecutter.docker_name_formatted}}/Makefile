@@ -51,10 +51,6 @@ debug_env: ## Print out variables used by docker-tools.sh
 	@./bin/docker-tools.sh debug_env
 .PHONY: debug_env
 
-package: setup ## Build the Docker image
-	@./bin/docker-tools.sh package
-.PHONY: package
-
 prepare_release: ## Runs prepare release
 	@./bin/docker-tools.sh prepare_release
 .PHONY: prepare_release
@@ -71,9 +67,9 @@ setup: check_poetry ## Setup virtualenv & dependencies using poetry and set-up t
 	@poetry run pre-commit install
 .PHONY: setup
 
-verify: setup prepare_release ## Run a build of the Docker image
+verify: setup prepare_release ## Build the Docker image
 	@./bin/docker-tools.sh package
 .PHONY: verify
 
-verify_publish_release: verify prepare_release package publish_to_ecr cut_release ## Run all the checks and tests, package, publish and release the Docker image
+verify_publish_release: verify publish_to_ecr cut_release ## Build Docker image with appropriate tags, publish and push new tag to GitHub
 .PHONY: verify_publish_release
