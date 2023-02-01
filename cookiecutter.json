@@ -7,6 +7,6 @@
   "docker_build_options_default": {},
   "docker_image_name": null,
   "docker_image_name_formatted": "{{ cookiecutter.docker_image_name|lower|replace(' ', '-')|replace('_', '-') }}",
-  "docker_include_default_build": true,
+  "docker_include_default_build": "true",
   "repository_name": null
 }

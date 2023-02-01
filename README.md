@@ -102,10 +102,11 @@ cruft diff | git apply
 ```
 
 ## Setting Docker Parameters
-You can manage the Docker build commands using two variables `docker_include_default_build` and `docker_builds`.
-The examples below demonstrate the different outcomes based on the contents of the dictionary values specified.
+You can manage the Docker build commands using the variables `docker_include_default_build`, `docker_build_options_default`
+and `docker_build_options_additional`. The examples below demonstrate the different outcomes based on the contents of
+the dictionary values specified.
 
-**Note:** Jinja2 will accept `true`, `True`, `yes` and `yes` as boolean `true`. Any other value will result in `false`
+**Note:** ONLY the string "true" will result in default builds being included
 
 ### Including the default build with no options
 
@@ -123,7 +124,7 @@ The examples below demonstrate the different outcomes based on the contents of t
     },
     "docker_image_name": "telemetry-elastic-loadtest",
     "docker_image_name_formatted": "telemetry-elastic-loadtest",
-    "docker_include_default_build": true,
+    "docker_include_default_build": "true",
     "_template": "https://github.com/hmrc/telemetry-docker-resources"
   }
 }
