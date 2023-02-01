@@ -32,7 +32,7 @@ package() {
   print_begins
   export_version
 
-  echo Export local packages
+  echo Export poetry packages
   rm -fv requirements.txt requirements-tests.txt
   poetry export --without-hashes --format requirements.txt --output "requirements.txt"
   poetry export --without-hashes --format requirements.txt --with dev --output "requirements-tests.txt"
