@@ -7,9 +7,6 @@ PYTHON_OK := $(shell type -P python)
 PYTHON_REQUIRED := $(shell cat .python-version)
 PYTHON_VERSION ?= $(shell python -V | cut -d' ' -f2)
 
-DOCKER_NAME := {{ cookiecutter.docker_name_formatted }}
-TELEMETRY_INTERNAL_BASE_ACCOUNT_ID := {{ cookiecutter.internal_base_account_id }}
-
 help: ## The help text you're reading
 	@grep --no-filename -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 .PHONY: help

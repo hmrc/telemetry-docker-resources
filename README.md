@@ -7,7 +7,7 @@
 * [Initialising a repository](#Initialising-a-repository)
 * [Linking an existing repository](#Linking-an-existing-repository)
 * [Updating the repository](#Updating-the-repository)
-* [Setting Docker Build Parameters](#Setting-Docker-Build-Parameters)
+* [Setting Docker Parameters](#Setting-Docker-Parameters)
 * [References](#References)
 * [License](#License)
 
@@ -101,140 +101,98 @@ cruft update --skip-apply-ask
 cruft diff | git apply
 ```
 
-## Setting Docker Build Parameters
-You can manage the Docker build commands using two variables `docker_build_info_default` and `docker_build_info_additional`.
+## Setting Docker Parameters
+You can manage the Docker build commands using two variables `docker_include_default_build` and `docker_builds`.
 The examples below demonstrate the different outcomes based on the contents of the dictionary values specified.
 
-**Note:** The Json blocks below are only snippets of the full Json required for simplicity
+**Note:** Jinja2 will accept `true`, `True`, `yes` and `yes` as boolean `true`. Any other value will result in `false`
 
-### Default build with no build arguments or tag suffixes
+### Including the default build with no options
 
 #### Input (.cruft.json)
 ```json
 {
-  "template": "https://github.com/hmrc/telemetry-docker-resources",
-  "context": {
-    "cookiecutter": {
-      "docker_build_info_additional": {},
-      "docker_build_info_default": {}
-    }
+  "cookiecutter": {
+    "additional_tool_versions": {},
+    "aws_account_id": "634456480543",
+    "aws_region": "eu-west-2",
+    "custom_makefile_name": "",
+    "docker_build_options_additional": {
+      "-heartbeat": "--platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1",
+      "-webops-heartbeat": "--build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1"
+    },
+    "docker_image_name": "telemetry-elastic-loadtest",
+    "docker_image_name_formatted": "telemetry-elastic-loadtest",
+    "docker_include_default_build": true,
+    "_template": "https://github.com/hmrc/telemetry-docker-resources"
   }
 }
 ```
 
 #### Output (bin/docker-tools.sh)
 ```shell
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}" .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-heartbeat" --platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1 .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
 ```
 
-### Default build only with build arguments
+### Including the default build with options
 
 #### Input (.cruft.json)
 ```json
 {
-  "template": "https://github.com/hmrc/telemetry-docker-resources",
-  "context": {
-    "cookiecutter": {
-      "docker_build_info_additional": {},
-      "docker_build_info_default": {
-        "default": {
-          "build_args": [
-            "MODE_HEARTBEAT=1"
-          ],
-          "platform": [
-            "'linux/amd64'"
-          ]
-        }
-      }
-    }
+  "cookiecutter": {
+    "additional_tool_versions": {},
+    "aws_account_id": "634456480543",
+    "aws_region": "eu-west-2",
+    "custom_makefile_name": "",
+    "docker_build_options_additional": {
+      "-heartbeat": "--platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1",
+      "-webops-heartbeat": "--build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1"
+    },
+    "docker_build_options_default": "--platform 'linux/amd64'",
+    "docker_image_name": "telemetry-elastic-loadtest",
+    "docker_image_name_formatted": "telemetry-elastic-loadtest",
+    "docker_include_default_build": true,
+    "_template": "https://github.com/hmrc/telemetry-docker-resources"
   }
 }
 ```
 
 #### Output (bin/docker-tools.sh)
 ```shell
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" --build-arg MODE_HEARTBEAT=1 --platform 'linux/amd64' .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}" --platform 'linux/amd64' .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-heartbeat" --platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1 .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
 ```
 
-### No default build but additional build arguments supplied
-
-**Note:** Even though no default build is supplied, you will always get a vanilla build. This is by design
+### Excluding the default build
 
 #### Input (.cruft.json)
 ```json
 {
-  "template": "https://github.com/hmrc/telemetry-docker-resources",
-  "context": {
-    "cookiecutter": {
-      "docker_build_info_additional": {
-        "-heartbeat": {
-          "build_args": [
-            "MODE_HEARTBEAT=1"
-          ]
-        },
-        "-webops-heartbeat": {
-          "build_args": [
-            "MODE_HEARTBEAT=1",
-            "IS_WEBOPS_ENV=1"
-          ]
-        }
-      },
-      "docker_build_info_default": {}
-    }
+  "cookiecutter": {
+    "additional_tool_versions": {},
+    "aws_account_id": "634456480543",
+    "aws_region": "eu-west-2",
+    "custom_makefile_name": "",
+    "docker_build_options_additional": {
+      "-heartbeat": "--platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1",
+      "-webops-heartbeat": "--build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1"
+    },
+    "docker_image_name": "telemetry-elastic-loadtest",
+    "docker_image_name_formatted": "telemetry-elastic-loadtest",
+    "docker_include_default_build": false,
+    "_template": "https://github.com/hmrc/telemetry-docker-resources"
   }
 }
 ```
 
 #### Output (bin/docker-tools.sh)
 ```shell
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-" .
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-heartbeat" --build-arg MODE_HEARTBEAT=1 .
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-heartbeat" --platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1 .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
 ```
-
-### Both default and additional build arguments supplied
-
-#### Input (.cruft.json)
-```json
-{
-  "template": "https://github.com/hmrc/telemetry-docker-resources",
-  "context": {
-    "cookiecutter": {
-      "docker_build_info_additional": {
-        "-heartbeat": {
-          "build_args": [
-            "MODE_HEARTBEAT=1"
-          ],
-          "platform": [
-            "'linux/amd64'"
-          ]
-        },
-        "-webops-heartbeat": {
-          "build_args": [
-            "MODE_HEARTBEAT=1",
-            "IS_WEBOPS_ENV=1"
-          ]
-        }
-      },
-      "docker_build_info_default": {
-        "default": {
-          "platform": [
-            "'linux/amd64'"
-          ]
-        }
-      }
-    }
-  }
-}
-```
-
-#### Output (bin/docker-tools.sh)
-```shell
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}" --platform 'linux/amd64' .
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-heartbeat" --build-arg MODE_HEARTBEAT=1 --platform 'linux/amd64' .
-  docker build --tag "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
-```
-
 
 ## References
 
