@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+### WARNING! This is a generated file and should ONLY be edited in https://github.com/hmrc/telemetry-docker-resources
+
 # A helper tool to assist us maintaining docker functions
 # Intention here is to keep this files and all its functions reusable for all Telemetry repositories
 

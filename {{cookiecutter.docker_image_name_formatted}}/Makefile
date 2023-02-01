@@ -7,6 +7,8 @@ PYTHON_OK := $(shell type -P python)
 PYTHON_REQUIRED := $(shell cat .python-version)
 PYTHON_VERSION ?= $(shell python -V | cut -d' ' -f2)
 
+### WARNING! This is a generated file and should ONLY be edited in https://github.com/hmrc/telemetry-docker-resources
+
 help: ## The help text you're reading
 	@grep --no-filename -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 .PHONY: help
