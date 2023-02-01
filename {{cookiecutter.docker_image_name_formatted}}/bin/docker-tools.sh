@@ -32,6 +32,11 @@ package() {
   print_begins
   export_version
 
+  echo Export poetry packages
+  rm -fv requirements.txt requirements-tests.txt
+  poetry export --without-hashes --format requirements.txt --output "requirements.txt"
+  poetry export --without-hashes --format requirements.txt --with dev --output "requirements-tests.txt"
+
   echo Building the images
 
 {%- if cookiecutter.docker_include_default_build|lower == "true" %}
