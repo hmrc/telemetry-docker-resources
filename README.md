@@ -199,7 +199,3 @@ docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elast
 
 * [Cruft](https://cruft.github.io/cruft)
 * [Cookiecutter](https://cookiecutter.readthedocs.io/en/stable/)
-
-## License
-
-This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
