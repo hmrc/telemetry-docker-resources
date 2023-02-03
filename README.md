@@ -119,11 +119,11 @@ the dictionary values specified.
     "aws_region": "eu-west-2",
     "custom_makefile_name": "",
     "docker_build_options_additional": {
-      "-heartbeat": "--platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1",
-      "-webops-heartbeat": "--build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1"
+      "_py3.10.8_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'",
+      "_py3.9.15_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'"
     },
-    "docker_image_name": "telemetry-elastic-loadtest",
-    "docker_image_name_formatted": "telemetry-elastic-loadtest",
+    "docker_image_name": "telemetry-build-container",
+    "docker_image_name_formatted": "telemetry-build-container",
     "docker_include_default_build": "true",
     "_template": "https://github.com/hmrc/telemetry-docker-resources"
   }
@@ -132,9 +132,9 @@ the dictionary values specified.
 
 #### Output (bin/docker-tools.sh)
 ```shell
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}" .
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-heartbeat" --platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1 .
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}" .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}_py3.10.8_tf1.3.2_tg0.39.2" --build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64' .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}_py3.9.15_tf1.3.2_tg0.39.2" --build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64' .
 ```
 
 ### Including the default build with options
@@ -148,12 +148,12 @@ docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elast
     "aws_region": "eu-west-2",
     "custom_makefile_name": "",
     "docker_build_options_additional": {
-      "-heartbeat": "--platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1",
-      "-webops-heartbeat": "--build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1"
+      "_py3.10.8_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'",
+      "_py3.9.15_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'"
     },
     "docker_build_options_default": "--platform 'linux/amd64'",
-    "docker_image_name": "telemetry-elastic-loadtest",
-    "docker_image_name_formatted": "telemetry-elastic-loadtest",
+    "docker_image_name": "telemetry-build-container",
+    "docker_image_name_formatted": "telemetry-build-container",
     "docker_include_default_build": true,
     "_template": "https://github.com/hmrc/telemetry-docker-resources"
   }
@@ -162,9 +162,9 @@ docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elast
 
 #### Output (bin/docker-tools.sh)
 ```shell
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}" --platform 'linux/amd64' .
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-heartbeat" --platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1 .
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}" --platform 'linux/amd64' .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}_py3.10.8_tf1.3.2_tg0.39.2" --build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64' .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}_py3.9.15_tf1.3.2_tg0.39.2" --build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64' .
 ```
 
 ### Excluding the default build
@@ -178,11 +178,11 @@ docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elast
     "aws_region": "eu-west-2",
     "custom_makefile_name": "",
     "docker_build_options_additional": {
-      "-heartbeat": "--platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1",
-      "-webops-heartbeat": "--build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1"
+      "_py3.10.8_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'",
+      "_py3.9.15_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'"
     },
-    "docker_image_name": "telemetry-elastic-loadtest",
-    "docker_image_name_formatted": "telemetry-elastic-loadtest",
+    "docker_image_name": "telemetry-build-container",
+    "docker_image_name_formatted": "telemetry-build-container",
     "docker_include_default_build": false,
     "_template": "https://github.com/hmrc/telemetry-docker-resources"
   }
@@ -191,8 +191,8 @@ docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elast
 
 #### Output (bin/docker-tools.sh)
 ```shell
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-heartbeat" --platform 'linux/amd64' --build-arg MODE_HEARTBEAT=1 .
-docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-elastic-loadtest:${VERSION}-webops-heartbeat" --build-arg MODE_HEARTBEAT=1 --build-arg IS_WEBOPS_ENV=1 .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}_py3.10.8_tf1.3.2_tg0.39.2" --build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64' .
+docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build-container:${VERSION}_py3.9.15_tf1.3.2_tg0.39.2" --build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.2.2' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64' .
 ```
 
 ## References
