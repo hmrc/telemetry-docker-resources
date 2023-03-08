@@ -52,8 +52,8 @@ git tag -a release/0.0.0 -m "release/0.0.0" && git push --tags
 
 ## Linking an existing repository
 
-The repository is meant to be used as a cookiecutter source inside any Docker-based repos. To add the templates
-to the consuming repository, follow the procedure below.
+This repository is meant to be used as a cookiecutter source inside any Docker-based repos. To add these templates
+to an existing Docker-based repository, follow the procedure below.
 
 ```shell
 # Update project
@@ -62,7 +62,7 @@ poetry update
 poetry add --group dev cruft cookiecutter
 ```
 
-For the next step, navigate to the folder above. **Note:** this is important as the cruft create will use the
+For the next step, navigate to the parent folder of the repo. **Note:** this is important as the cruft create will use the
 `cruft_repo_name` property to insert the templated files, overwriting where necessary, into the actual project folder
 
 ```shell
