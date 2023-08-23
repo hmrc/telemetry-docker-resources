@@ -66,7 +66,6 @@ publish_to_ecr: ## Push the Docker image to the internal-base ECR repo
 
 setup: check_poetry ## Setup virtualenv & dependencies using poetry and set-up the git hook scripts
 	@export POETRY_VIRTUALENVS_IN_PROJECT=$(POETRY_VIRTUALENVS_IN_PROJECT) && poetry run pip install --upgrade pip
-	@poetry config experimental.new-installer false
 	@poetry config --list
 	@poetry install --no-root
 	@poetry run pre-commit install
