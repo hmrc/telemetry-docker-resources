@@ -43,8 +43,9 @@ clean: ## Teardown build artefacts
 .PHONY: clean
 
 cruft_update: ## Update cruft but saving the current state of the complex input variables
-	@cp .cruft.json ~/tmp/.cruft.json.bak
+	@cp .cruft.json ~/.cruft.json.bak
 	@cruft update --variables-to-update-file ~/tmp/.cruft.json.bak
+	@rm ~/.cruft.json.bak
 .PHONY: clean
 
 cut_release: ## Cut release
