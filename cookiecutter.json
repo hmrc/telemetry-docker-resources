@@ -3,10 +3,10 @@
   "aws_account_id": "634456480543",
   "aws_region": "eu-west-2",
   "custom_makefile_name": "",
-  "docker_build_options_additional": {},
+  "docker_build_options_additional": "",
   "docker_build_options_default": {},
   "docker_image_name": null,
   "docker_image_name_formatted": "{{ cookiecutter.docker_image_name|lower|replace(' ', '-')|replace('_', '-') }}",
   "docker_include_default_build": false,
-  "repository_name": null
+  "repository_name": "{{ cookiecutter.docker_image_name }}"
 }
