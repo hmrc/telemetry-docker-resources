@@ -7,7 +7,7 @@ This document provides information about this boilerplate's required and optiona
 | Attribute                           | Type     | Example                                                             |
 |-------------------------------------|----------|---------------------------------------------------------------------|
 | **additional_tool_versions**        | json     | {} or {"golang": "1.21.0"}                                          |
-| **docker_build_options_additional** | json     | {} or {"tag": "--build-arg foo=bar"}                              |
+| **docker_build_options_additional** | json     | {} or {"_some_tag": "--build-arg foo=bar ."}                        |
 | **docker_image_name**               | string   | "project-name"                                                      | 
 | **docker_image_name_formatted**     | string   | this will be auto-populated based on the provided docker_image_name |
 
