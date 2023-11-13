@@ -49,7 +49,7 @@ package() {
   {%- endif %}
 {%- endif %}
 {%- for key, value in cookiecutter.docker_build_options_additional|dictsort %}
-  docker build --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}{{key|safe}}" {{value|safe}} .
+  docker build --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}{{key|safe}}" {{value|safe}}
 {%- endfor %}
   print_completed
 }
