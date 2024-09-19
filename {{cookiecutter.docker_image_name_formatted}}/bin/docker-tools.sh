@@ -34,13 +34,7 @@ package() {
   print_begins
   export_version
 
-  echo Export poetry packages
-  rm -fv requirements.txt requirements-tests.txt
-  poetry export --without-hashes --format requirements.txt --output "requirements.txt"
-  poetry export --without-hashes --format requirements.txt --with dev --output "requirements-tests.txt"
-
   echo Building the images
-
 {%- if cookiecutter.docker_include_default_build is sameas true %}
   {%- if cookiecutter.docker_build_options_default is defined and cookiecutter.docker_build_options_default|length %}
   docker build --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}" {{cookiecutter.docker_build_options_default|safe}} .
