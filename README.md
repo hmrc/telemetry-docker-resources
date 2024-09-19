@@ -102,9 +102,8 @@ cruft diff | git apply
 ```
 
 ## Setting Docker Parameters
-You can manage the Docker build commands using the variables `docker_include_default_build`, `docker_build_options_default`
-and `docker_build_options_additional`. The examples below demonstrate the different outcomes based on the contents of
-the dictionary values specified.
+You can manage the Docker build commands using the variables `docker_include_default_build` and `docker_build_options_default`.
+The examples below demonstrate the different outcomes based on the contents of the dictionary values specified.
 
 **Note:** ONLY the string "true" will result in default builds being included
 
@@ -114,10 +113,10 @@ the dictionary values specified.
 ```json
 {
   "cookiecutter": {
-    "additional_tool_versions": {},
     "aws_account_id": "634456480543",
     "aws_region": "eu-west-2",
     "custom_makefile_name": "",
+    "description": "Build agent for Telemetry",
     "docker_build_options_additional": {
       "_py3.10.8_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.6.1' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'",
       "_py3.9.15_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.6.1' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'"
@@ -143,10 +142,10 @@ docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build
 ```json
 {
   "cookiecutter": {
-    "additional_tool_versions": {},
     "aws_account_id": "634456480543",
     "aws_region": "eu-west-2",
     "custom_makefile_name": "",
+    "description": "Build agent for Telemetry",
     "docker_build_options_additional": {
       "_py3.10.8_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.6.1' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'",
       "_py3.9.15_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.6.1' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'"
@@ -173,10 +172,10 @@ docker build --tag "634456480543.dkr.ecr.eu-west-2.amazonaws.com/telemetry-build
 ```json
 {
   "cookiecutter": {
-    "additional_tool_versions": {},
     "aws_account_id": "634456480543",
     "aws_region": "eu-west-2",
     "custom_makefile_name": "",
+    "description": "Build agent for Telemetry",
     "docker_build_options_additional": {
       "_py3.10.8_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.10.8' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.6.1' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'",
       "_py3.9.15_tf1.3.2_tg0.39.2": "--build-arg PYTHON_VERSION='3.9.15' --build-arg AWS_NUKE_VERSION='2.19.0' --build-arg DOCKER_COMPOSE_VERSION='2.10.2' --build-arg DOCKER_VERSION='20.10.18' --build-arg GO_VERSION='1.18.2' --build-arg GOSS_VERSION='0.3.18' --build-arg POETRY_VERSION='1.6.1' --build-arg SBT_VERSION='0.13.18' --build-arg SCALA_VERSION='2.12.10' --build-arg TERRAFORM_VERSION='1.3.2' --build-arg TERRAFORM_DOCS_VERSION='0.16.0' --build-arg TERRAGRUNT_VERSION='0.39.2' --build-arg BUILDKIT_INLINE_CACHE=1 --platform 'linux/amd64'"
