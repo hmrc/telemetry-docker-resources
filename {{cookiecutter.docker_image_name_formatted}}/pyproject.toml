@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "{{cookiecutter.docker_image_name_formatted}}"
+version = "0.0.0"
+description = "{{cookiecutter.description}}"
+readme = "README.md"
+authors = ["Team Telemetry <telemetry@digital.hmrc.gov.uk>"]
+maintainers = ["Team Telemetry"]
+
+[[tool.poetry.source]]
+name = "artifactory"
+url = "https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple/"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "supplemental"
+
+[tool.poetry.dependencies]
+python = "~3.10"
+cruft = "^2"
+pre-commit = "^3"
+toml = "^0"
+version-incrementor = "^1"
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
