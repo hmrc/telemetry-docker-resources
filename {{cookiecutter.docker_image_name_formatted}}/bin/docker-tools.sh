@@ -37,9 +37,9 @@ package() {
   echo Building the images
 {%- if cookiecutter.docker_include_default_build is sameas true %}
   {%- if cookiecutter.docker_build_options_default is defined and cookiecutter.docker_build_options_default|length %}
-  docker build --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}" {{cookiecutter.docker_build_options_default|safe}} .
+  docker build --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}" --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:latest" {{cookiecutter.docker_build_options_default|safe}} .
   {%- else %}
-  docker build --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}" .
+  docker build --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}" --tag "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:" .
   {%- endif %}
 {%- endif %}
 {%- for key, value in cookiecutter.docker_build_options_additional|dictsort %}
