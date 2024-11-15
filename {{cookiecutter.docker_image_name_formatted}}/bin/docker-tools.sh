@@ -67,6 +67,7 @@ publish_to_ecr() {
 
 {%- if cookiecutter.docker_include_default_build is sameas true %}
   docker push "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}"
+  docker push "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:latest"
 {%- endif %}
 {%- for key, value in cookiecutter.docker_build_options_additional|dictsort %}
   docker push "{{cookiecutter.aws_account_id}}.dkr.ecr.{{cookiecutter.aws_region}}.amazonaws.com/{{cookiecutter.docker_image_name_formatted}}:${VERSION}{{key|safe}}"
